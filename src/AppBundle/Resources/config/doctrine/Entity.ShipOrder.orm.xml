@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="AppBundle\Entity\Entity\ShipOrder">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <many-to-one field="person" target-entity="AppBundle\Entity\Entity\Person" inversed-by="shipOrders">
+            <join-column name="person" referenced-column-name="id" />
+        </many-to-one>
+
+        <many-to-many field="items" fetch="EAGER" target-entity="AppBundle\Entity\Entity\Item">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+            <join-table name="shiporder_item">
+                <join-columns>
+                    <join-column name="shiporder_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="item_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+
+        <field name="shipToName" type="string" column="shipToName" length="255"/>
+        <field name="address" type="string" column="address" length="255"/>
+        <field name="city" type="string" column="city" length="255"/>
+        <field name="country" type="string" column="country" length="255"/>
+
+    </entity>
+</doctrine-mapping>

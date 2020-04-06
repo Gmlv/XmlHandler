@@ -1,0 +1,59 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    #parameter_name: value
+
+services:
+    xml_handler_factory:
+        class: AppBundle\Factory\XmlHandlerFactory
+        arguments: ['@people_xml_handler', '@ship_order_xml_handler']
+
+    ship_order_xml_handler:
+        class: AppBundle\Factory\ShipOrdersXmlHandler
+        arguments: ['@pipeline_processor']
+
+    people_xml_handler:
+        class: AppBundle\Factory\PeopleXmlHandler
+        arguments: ['@pipeline_processor']
+
+    people_service:
+        class: AppBundle\Services\PeopleService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    people_retrieve_service:
+        class: AppBundle\Services\PeopleRetrieveService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    ship_order_service:
+        class: AppBundle\Services\ShipOrderService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    ship_order_retrieve_service:
+        class: AppBundle\Services\ShipOrderRetrieveService
+        arguments: ['@doctrine.orm.entity_manager']
+
+    pipeline_processor:
+        class: AppBundle\Pipeline\PipelineProcessor
+        arguments: ['@service_container']
+
+    appbundle\pipeline\shiporder\shiporderid:
+        class: AppBundle\Pipeline\ShipOrder\ShipOrderId
+
+    appbundle\pipeline\shiporder\shiporderperson:
+        class: AppBundle\Pipeline\ShipOrder\ShipOrderPerson
+        arguments: ['@doctrine.orm.entity_manager']
+
+    appbundle\pipeline\shiporder\shipordershipto:
+        class: AppBundle\Pipeline\ShipOrder\ShipOrderShipTo
+
+    appbundle\pipeline\shiporder\shiporderitems:
+        class: AppBundle\Pipeline\ShipOrder\ShipOrderItems
+
+    appbundle\pipeline\person\personid:
+        class: AppBundle\Pipeline\Person\PersonId
+
+    appbundle\pipeline\person\personname:
+        class: AppBundle\Pipeline\Person\PersonName
+
+    appbundle\pipeline\person\persontelephone:
+        class: AppBundle\Pipeline\Person\PersonTelephone
