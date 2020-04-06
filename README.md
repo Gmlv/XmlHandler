@@ -24,4 +24,11 @@ Create the database:
 Create tables:
 
     php app/console doctrine:schema:create
+    
+###API end points
+    /api/people    
+    /api/people/{id}
+    /api/ship-order
+    /api/ship-order/{id}        
+    
 
